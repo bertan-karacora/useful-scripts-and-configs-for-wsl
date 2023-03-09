@@ -12,3 +12,9 @@ function merge_pdfs {
 	gs -sDEVICE=pdfwrite -dPDFSETTINGS=/default -dNOPAUSE -dQUIET -dBATCH -sOutputFile="$1.merged" "$@"  > /dev/null
 	mv "$1.merged" "$1"
 }
+
+function replace_spaces {
+	find -name "* *" -print0 | \
+	sort -rz | \
+  	while read -d $'\0' f; do mv -v "$f" "$(dirname "$f")/$(basename "${f// /_}")"; done
+}
