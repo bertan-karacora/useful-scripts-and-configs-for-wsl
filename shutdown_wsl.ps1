@@ -1,0 +1,1 @@
+Invoke-Item "wsl --shutdown"
