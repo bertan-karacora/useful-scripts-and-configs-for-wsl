@@ -21,7 +21,7 @@ powershell.exe Get-Clipboard >> setup
 4. Make sure to give execution permission using
 
 ```bash
-chmod +x ./setup`
+chmod +x ./setup
 ```
 
 5. Run it.
