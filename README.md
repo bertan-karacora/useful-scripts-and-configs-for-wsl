@@ -8,23 +8,21 @@ Works with default WSL distribution (Ubuntu 22.04). There are some requirements 
 
 1. Start WSL by typing `wsl` from within a Windows shell. For the installation, refer to the [official documentation](https://learn.microsoft.com/en-us/windows/wsl/install).
 
-2. Open the [setup script](https://github.com/bertan-karacora/useful-script-and-configs-for-wsl/blob/main/setup) of this repository and copy its contents to your clipboard.
-
-3. Create a new file, name it as you wish (e.g. "setup"), and copy the contents from the setup script into it:
+2. Download the setup script. Alternatively, you can also copy its content to a new file (mind CRLF conversion!). For example:
 
 ```bash
 cd ~
-touch setup
-powershell.exe Get-Clipboard >> setup
+sudo apt install wget
+wget https://raw.githubusercontent.com/bertan-karacora/useful-script-and-configs-for-wsl/main/setup
 ```
 
-4. Make sure to give execution permission using
+3. Make sure to give execution permission using
 
 ```bash
 chmod +x ./setup
 ```
 
-5. Run it.
+4. Run it.
 
 ```bash
 ./setup
