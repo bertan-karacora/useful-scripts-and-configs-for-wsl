@@ -1,0 +1,123 @@
+#!/bin/sh
+
+disable_sudo_password() {
+    USER="$(whoami)";
+    ENTRY="$USER ALL=(ALL) NOPASSWD:ALL";
+    FILE="/etc/sudoers.d/$USER";
+
+    echo "Disabling sudo password for user $USER...";
+    if [ -f "$FILE" ] || [ -n "$(sudo grep -qs "$ENTRY" "$FILE")" ]
+    then
+        echo "Sudo password for user $USER already disabled";
+    else
+        echo "$USER ALL=(ALL) NOPASSWD:ALL" | sudo EDITOR='tee -a' visudo --quiet --file=/etc/sudoers.d/"$USER" > /dev/null;
+
+        echo "Disabled password for user $USER in file $FILE";
+    fi
+}
+
+update() {
+    echo "Updating packages...";
+    sudo apt-get -qq update && sudo apt-get -qq upgrade -y;
+    echo "Updated packages...";
+}
+
+setup_git() {
+    echo "Installing Git...";
+    sudo apt-get -qq install git;
+    echo "Installed git";
+
+    echo "Configuring Git...";
+    
+    if [ -z "$(git config --global user.name)" ]
+    then
+        echo "Your name: ";
+        read -r NAME;
+        git config --global user.name "$NAME";
+    fi
+
+    if [ -z "$(git config --global user.email)" ]
+    then
+        echo "Your email: ";
+        read -r EMAIL;
+        git config --global user.email "$EMAIL";
+    fi
+
+    git config --global credential.helper "/mnt/c/Program\ Files/Git/mingw64/bin/git-credential-manager.exe";
+    git config --global pull.rebase true;
+    echo "Configured Git";
+}
+
+setup_ssh() {
+    echo "Configuring SSH...";
+    echo "Your Windows username: ";
+    read -r NAME;
+    cp -r /mnt/c/Users/"$NAME"/.ssh/id_* ~/.ssh;
+    chmod 600 ~/.ssh/id_*;
+    echo "Configured SSH";
+}
+
+setup_configs() {
+    echo "Collecting configs...";
+    REPO_NAME="useful-script-and-configs-for-wsl";
+    REPO_SSH="git@github.com:bertan-karacora/$REPO_NAME.git";
+    if [ ! -d "$REPO_NAME" ]
+    then
+        git clone "$REPO_SSH";
+    fi
+    cp $REPO_NAME/.bash_aliases ~/.bash_aliases;
+    echo "Collected configs";
+}
+
+install_cuda() {
+    echo "Installing Cuda...";
+
+    # Look for newer versions:
+    # https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=WSL-Ubuntu&target_version=2.0&target_type=deb_local
+    sudo apt-key del 7fa2af80;
+
+    wget https://developer.download.nvidia.com/compute/cuda/repos/wsl-ubuntu/x86_64/cuda-wsl-ubuntu.pin;
+    sudo mv cuda-wsl-ubuntu.pin /etc/apt/preferences.d/cuda-repository-pin-600;
+    wget https://developer.download.nvidia.com/compute/cuda/12.2.2/local_installers/cuda-repo-wsl-ubuntu-12-2-local_12.2.2-1_amd64.deb;
+    sudo dpkg -i cuda-repo-wsl-ubuntu-12-2-local_12.2.2-1_amd64.deb;
+    sudo cp /var/cuda-repo-wsl-ubuntu-12-2-local/cuda-*-keyring.gpg /usr/share/keyrings/;
+    sudo apt-get -qq update;
+    sudo apt-get -qq -y install cuda;
+
+    sudo rm cuda-repo-wsl-ubuntu-12-2-local_12.2.2-1_amd64.deb;
+
+    echo "Check if GPU is available: ";
+    nvidia-smi;
+
+    echo "Installed Cuda";
+}
+
+install_requirements() {
+    echo "Installing packages...";
+    REPO_NAME="useful-script-and-configs-for-wsl";
+    cat $REPO_NAME/requirements_apt.txt | xargs sudo apt-get -qq install -y;
+    echo "Installed packages";
+}
+
+install_chrome() {
+    echo "Installing Chrome...";
+    cd /tmp || return;
+    sudo wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb;
+    sudo dpkg -i google-chrome-stable_current_amd64.deb;
+    sudo apt-get -qq install --fix-broken -y;
+    cd ~ || return;
+    echo "Installed Chrome";
+}
+
+main() {
+    disable_sudo_password;
+    update;
+    setup_git;
+    setup_ssh;
+    setup_configs;
+    install_cuda;
+    install_requirements;
+    install_chrome;
+}
+
+main;
