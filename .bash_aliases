@@ -1,5 +1,9 @@
 alias sudo="sudo "
 
+function update {
+	sudo apt update && sudo apt upgrade -y
+}
+
 function replace_filename_spaces {
 	find . \
 		-name "* *" \
@@ -24,10 +28,8 @@ function compress_pdfs {
 		gs \
 			-sDEVICE=pdfwrite \
 			-dPDFSETTINGS=/default \
-			-dNOPAUSE \
 			-dQUIET \
-			-dBATCH \
-			-sOutputFile="$1.compressed" \
+			-o "$1.compressed" \
 			"$1" \
 		&& mv "$1.compressed" "$1" \
 		&& echo "Compressed $1." \
@@ -38,10 +40,8 @@ function merge_pdfs {
 	gs \
 		-sDEVICE=pdfwrite \
 		-dPDFSETTINGS=/default \
-		-dNOPAUSE \
 		-dQUIET \
-		-dBATCH \
-		-sOutputFile="$1.merged" \
+		-o "$1.merged" \
 		"$@" > /dev/null \
 	&& mv "$1.merged" "$1" \
 	&& echo "Merged into $1."
@@ -57,10 +57,8 @@ function remove_metadata_pdfs {
 		gs \
 			-sDEVICE=pdfwrite \
 			-dPDFSETTINGS=/default \
-			-dNOPAUSE \
 			-dQUIET \
-			-dBATCH \
-			-sOutputFile="$1.withoutMetadata" \
+			-o "$1.withoutMetadata" \
 			"$1" \
 			-c "[ /Title () /Author () /Keywords () /Subject () /DOCINFO pdfmark" \
 		&& mv "$1.withoutMetadata" "$1" \
