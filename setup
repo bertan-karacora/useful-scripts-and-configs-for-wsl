@@ -108,6 +108,12 @@ install_chrome() {
     echo "Installed Chrome";
 }
 
+fix_gpu_selection() {
+    # If you are using a dedicated Nvidia card like I am this is a solution to a common problem with OpenGL.
+    # The effect can be tested e.g. using glxgears.
+    echo "# Fix OpenGL rendering\nexport MESA_D3D12_DEFAULT_ADAPTER_NAME=NVIDIA" >> ~/.bashrc 
+}
+
 main() {
     disable_sudo_password;
     update;
@@ -117,6 +123,8 @@ main() {
     install_cuda;
     install_requirements;
     install_chrome;
+
+    # fix_gpu_selection;
 }
 
 main;
