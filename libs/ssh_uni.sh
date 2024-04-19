@@ -77,5 +77,5 @@ ssh_uni() {
     parse_args "$@"
 
     ssh_cmd="$(construct_cmd)"
-    echo "$ssh_cmd"
+    eval "$ssh_cmd"
 }
