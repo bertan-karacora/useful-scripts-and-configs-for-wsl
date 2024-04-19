@@ -1,0 +1,7 @@
+[user]
+	name = Bertan Karacora
+	email = bertan.karacora@gmail.com
+[credential "https://git.cs.uni-bonn.de"]
+	provider = generic
+[core]
+	autocrlf = true

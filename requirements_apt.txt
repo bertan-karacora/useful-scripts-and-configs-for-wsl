@@ -1,7 +1,6 @@
 build-essential
 ca-certificates
 cmake
-cuda
 curl
 imagemagick
 gdb
