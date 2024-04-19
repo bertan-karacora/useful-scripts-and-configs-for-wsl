@@ -6,28 +6,26 @@ A collection of useful scripts and configs I made for the default WSL2 system.
 
 1. Start WSL by typing `wsl` from within a Windows shell. For the installation, refer to the [official documentation](https://learn.microsoft.com/en-us/windows/wsl/install).
 
-2. Download the setup script. Alternatively, you can also copy its content to a new file (but mind the CRLF conversion). For example:
+2. Download this repository. For example:
 
     ```bash
     cd ~
     sudo apt install wget
-    wget https://raw.githubusercontent.com/bertan-karacora/useful-scripts-and-configs-for-wsl/main/setup.sh
+    wget https://github.com/bertan-karacora/useful-scripts-and-configs-for-wsl/archive/refs/heads/main.zip
+    unzip main.zip
+    rm main.zip
+    mv useful-scripts-and-configs-for-wsl-main useful-scripts-and-configs-for-wsl
     ```
 
-3. Make sure to give execution permission using
+3. Make sure to give execution permission for setup script using
 
     ```bash
-    chmod +x ./setup.sh
+    cd useful-scripts-and-configs-for-wsl
+    chmod +x setup.sh
     ```
 
-4. Run it.
+4. Run it with sudo.
 
     ```bash
-    ./setup.sh
-    ```
-
-5. Cleanup.
-
-    ```bash
-    rm ./setup.sh
+    sudo ./setup.sh
     ```
