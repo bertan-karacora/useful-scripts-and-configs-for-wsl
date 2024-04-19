@@ -4,8 +4,13 @@ set -euo pipefail
 
 source libs/io_utils.sh
 
+username=""
 readonly name_repo="useful-scripts-and-configs-for-wsl"
-readonly ssh_repo="git@github.com:bertan-karacora/$name_repo.git"
+
+read_username() {
+    echo "Username: "
+    read -r username
+}
 
 setup_libs() {
     local string_bash_libs="$(<bash_libs.sh)"
@@ -16,8 +21,8 @@ fi"
 
     echo "Setting up bash functions ..."
 
-    append_if_not_contained ~/.bash_libs "$string_bash_libs"
-    append_if_not_contained ~/.bashrc "$string_bashrc"
+    append_if_not_contained "/home/$username/.bash_libs" "$string_bash_libs"
+    append_if_not_contained "/home/$username/.bashrc" "$string_bashrc"
 
     echo "Setting up bash functions finished"
 }
@@ -31,8 +36,8 @@ fi"
 
     echo "Setting up bash aliases ..."
 
-    append_if_not_contained ~/.bash_aliases "$string_bash_aliases"
-    append_if_not_contained ~/.bashrc "$string_bashrc"
+    append_if_not_contained "/home/$username/.bash_aliases" "$string_bash_aliases"
+    append_if_not_contained "/home/$username/.bashrc" "$string_bashrc"
 
     echo "Setting up bash aliases finished"
 
@@ -44,7 +49,7 @@ export PATH=\$PATH:~/$name_repo/scripts"
 
     echo "Setting up scripts ..."
 
-    append_if_not_contained ~/.bashrc "$string_bashrc"
+    append_if_not_contained "/home/$username/.bashrc" "$string_bashrc"
 
     echo "Setting up scripts finished"
 }
@@ -81,6 +86,7 @@ setup() {
 }
 
 main() {
+    read_username
     setup
 }
 
