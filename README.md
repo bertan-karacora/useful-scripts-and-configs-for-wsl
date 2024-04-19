@@ -1,6 +1,6 @@
 # Useful scripts and configs for WSL
 
-A collection of useful scripts and configs I made for the default WSL2 system.
+A collection of useful scripts and configs I created for the WSL2 system.
 
 ## Usage
 
