@@ -11,7 +11,9 @@ ssh_uni() {
     local ports=("${ports_default[@]}")
     local ssh_cmd=""
 
-    usage() {
+    local help_showed=1
+
+    show_help() {
         echo "Usage:"
         echo "  ssh_uni [-H <host>] [-U <username>] <port1> <port2> ..."
         echo
@@ -23,7 +25,6 @@ ssh_uni() {
         echo "Custom SSH command for connecting to a network node of the University of Bonn."
         echo "Jumps over $host_login if destination host is not directly reachable."
         echo "Ports [${ports_default[@]}] are always forwarded."
-        echo
     }
 
     parse_args() {
@@ -33,8 +34,8 @@ ssh_uni() {
             shift
             case $arg in
             -h | --help)
-                usage
-                return 0
+                show_help
+                help_showed=0
                 ;;
             -H | --host)
                 host_destination="$1"
@@ -74,7 +75,10 @@ ssh_uni() {
         echo "$ssh_cmd"
     }
 
-    parse_args "$@"
+    parse_args "$@" || return
+    if [[ "$help_showed" -eq 0 ]]; then
+        return 0
+    fi
 
     ssh_cmd="$(construct_cmd)"
     eval "$ssh_cmd"
