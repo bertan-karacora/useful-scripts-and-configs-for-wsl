@@ -20,7 +20,7 @@ install_cuda() {
 
     if is_installed cuda-toolkit-12-4; then
         echo "Cuda already installed"
-        return
+        return 0
     fi
 
     remove_gpg_key

@@ -19,7 +19,7 @@ disable_sudo_password() {
 
     if contains "$file" "$entry"; then
         echo "Sudo password for user $username already disabled"
-        return
+        return 0
     fi
 
     echo "$entry" | EDITOR='tee -a' visudo --quiet --file="$file" >/dev/null

@@ -17,7 +17,7 @@ generate_sshkey() {
 
     if [[ -f $path_key_windows ]]; then
         echo "Key already exists at: $path_key_windows"
-        return
+        return 0
     fi
 
     echo "Your email: "

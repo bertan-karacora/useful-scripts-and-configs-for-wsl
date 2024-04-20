@@ -24,6 +24,6 @@ append_if_not_contained() {
     if ! contains "$path" "$string"; then
         append2file "$path" "$string"
     else
-        true
+        return 0
     fi
 }

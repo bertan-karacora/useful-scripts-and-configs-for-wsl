@@ -9,7 +9,7 @@ install_chrome() {
 
     if is_installed google-chrome-stable; then
         echo "Chrome already installed"
-        return
+        return 0
     fi
 
     apt-get install libxss1 libappindicator1 libindicator7 -qq -y

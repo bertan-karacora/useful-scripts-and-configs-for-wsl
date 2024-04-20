@@ -27,7 +27,7 @@ configure_git_name() {
 
     if [[ "$name_git" ]]; then
         echo "Git name already set: $name_git"
-        return
+        return 0
     fi
 
     echo "Your name: "
@@ -41,7 +41,7 @@ configure_git_email() {
 
     if [[ "$email_git" ]]; then
         echo "Git email already set: $email_git"
-        return
+        return 0
     fi
 
     echo "Your email: "
