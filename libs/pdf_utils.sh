@@ -1,5 +1,7 @@
 set -a
 
+source libs/path_utils.sh
+
 remove_metadata_pdf() {
     gs \
         -sDEVICE=pdfwrite \
@@ -48,7 +50,9 @@ compress_pdfs() {
 }
 
 fix_pdfs() {
-    replace_filename_spaces
+    replace_spaces_filenames
     compress_pdfs
     remove_metadata_pdfs
 }
+
+set +a

@@ -13,3 +13,5 @@ is_installed() {
 
     return 0
 }
+
+set +a

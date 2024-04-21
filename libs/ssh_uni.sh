@@ -83,3 +83,5 @@ ssh_uni() {
     ssh_cmd="$(construct_cmd)"
     eval "$ssh_cmd"
 }
+
+set +a

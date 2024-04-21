@@ -27,3 +27,5 @@ append_if_not_contained() {
         return 0
     fi
 }
+
+set +a
