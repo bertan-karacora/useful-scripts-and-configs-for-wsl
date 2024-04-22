@@ -1,6 +1,7 @@
 set -a
 
-source libs/path_utils.sh
+readonly path_script="$(dirname "$(realpath -s "$BASH_SOURCE")")"
+source "$path_script/path_utils.sh"
 
 remove_metadata_pdf() {
     gs \
