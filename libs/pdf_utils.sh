@@ -18,7 +18,7 @@ remove_metadata_pdf() {
 
 remove_metadata_pdfs() {
     find . -type f -name "*.pdf" -print0 |
-        xargs --null --replace={} bash -c 'remove_metadata_pdf "$@"' -- {}
+        xargs --null --replace={} bash -i -c 'remove_metadata_pdf "$@"' -- {}
 }
 
 merge_pdfs() {
@@ -47,7 +47,7 @@ compress_pdf() {
 
 compress_pdfs() {
     find . -type f -name "*.pdf" -size +1M -print0 |
-        xargs --null --replace={} bash -c 'compress_pdf "$@"' -- {}
+        xargs --null --replace={} bash -i -c 'compress_pdf "$@"' -- {}
 }
 
 fix_pdfs() {
